@@ -11,8 +11,13 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
+  advanced: {
+    database: {
+      generateId: false, // we already have UUIDs in our schema, so no need to generate new IDs
+    },
+  },
   plugins: [openAPI()],
-  basePath: 'api/auth'
+  basePath: 'api/auth',
 })
 
 let _schema: ReturnType<typeof auth.api.generateOpenAPISchema>
