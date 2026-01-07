@@ -3,7 +3,7 @@ import { openapi } from '@elysiajs/openapi'
 import { z } from 'zod'
 import { posts } from './db/schema'
 import { db } from './db'
-import { auth } from './lib/auth'
+import { auth, OpenAPI } from './lib/auth'
 
 const app = new Elysia()
   .mount(auth.handler)
@@ -11,6 +11,10 @@ const app = new Elysia()
     openapi({
       mapJsonSchema: {
         zod: z.toJSONSchema,
+      },
+      documentation: {
+        components: await OpenAPI.components,
+        paths: await OpenAPI.getPaths(),
       },
     })
   )
