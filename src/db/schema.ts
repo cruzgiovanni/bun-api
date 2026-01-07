@@ -13,7 +13,7 @@ export const posts = pgTable('posts', {
   id: uuid().primaryKey().defaultRandom(),
   title: varchar({ length: 255 }).notNull(),
   content: varchar({ length: 255 }).notNull(),
-  createdAt: timestamp().notNull().defaultNow(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
 })
 
 export const users = pgTable('users', {
