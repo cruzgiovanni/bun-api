@@ -31,17 +31,19 @@ export const auth = betterAuth({
   // By default, sessions are stored in the database.
   // the session data will be stored in Redis instead of the database.
   // this will provide better performance and scalability for session management.
-  secondaryStorage: {
-    get: async (key: string) => {
-      // get from redis using key
-    },
-    set: () => {
-      // set from redis using key
-    },
-    delete: () => {
-      // delete from redis using key
-    },
-  },
+  // Uncomment and implement the following section to enable Redis storage.
+
+  // secondaryStorage: {
+  //   get: async (key: string) => {
+  //     // get from redis using key
+  //   },
+  //   set: () => {
+  //     // set from redis using key
+  //   },
+  //   delete: () => {
+  //     // delete from redis using key
+  //   },
+  // },
 })
 
 let _schema: ReturnType<typeof auth.api.generateOpenAPISchema>
