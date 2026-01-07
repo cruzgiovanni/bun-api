@@ -18,6 +18,30 @@ export const auth = betterAuth({
   },
   plugins: [openAPI()],
   basePath: 'api/auth',
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: 5 * 60, // 5 minutes
+    },
+  },
+
+  // When we want to use Redis for session storage?
+  // when there are multiple instances of the app running (e.g., in a load-balanced environment)
+  // or when we want to persist sessions across server restarts.
+  // By default, sessions are stored in the database.
+  // the session data will be stored in Redis instead of the database.
+  // this will provide better performance and scalability for session management.
+  secondaryStorage: {
+    get: async (key: string) => {
+      // get from redis using key
+    },
+    set: () => {
+      // set from redis using key
+    },
+    delete: () => {
+      // delete from redis using key
+    },
+  },
 })
 
 let _schema: ReturnType<typeof auth.api.generateOpenAPISchema>
