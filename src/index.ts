@@ -1,6 +1,8 @@
 import { Elysia } from 'elysia'
 import { openapi } from '@elysiajs/openapi'
 import { z } from 'zod'
+import { postsTable } from './db/schema'
+import { db } from './db'
 
 const app = new Elysia()
   .use(
@@ -13,13 +15,16 @@ const app = new Elysia()
   .get('/', () => 'Hello Elysia')
   .post(
     '/posts',
-    ({ body }) => {
-      return {
-        id: crypto.randomUUID(),
-        title: body.title,
-        content: body.content,
-        createdAt: new Date(),
-      }
+    async ({ body }) => {
+      const [result] = await db
+        .insert(postsTable)
+        .values({
+          title: body.title,
+          content: body.content,
+        })
+        .returning()
+
+      return result
     },
     {
       body: z.object({
@@ -41,3 +46,15 @@ const app = new Elysia()
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
 )
+
+// Tabela (Drizzle schema)
+//         ↓
+// Drizzle gera tipos TS
+//         ↓
+// db.insert(postsTable)
+//         ↓
+// .returning() → Promise<linha[]>
+//         ↓
+// [result] → linha
+//         ↓
+// return → resposta HTTP
