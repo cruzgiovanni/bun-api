@@ -8,6 +8,9 @@ export const auth = betterAuth({
     provider: 'pg',
     usePlural: true, // table names will be pluralized (e.g., 'users' instead of 'user')
   }),
+  emailAndPassword: {
+    enabled: true,
+  },
   plugins: [openAPI()],
 })
 
