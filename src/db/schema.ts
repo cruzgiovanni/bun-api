@@ -17,7 +17,7 @@ export const posts = pgTable('posts', {
 })
 
 export const users = pgTable('users', {
-  id: text('id').primaryKey(),
+  id: uuid('id').primaryKey().defaultRandom(),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
   emailVerified: boolean('email_verified').default(false).notNull(),
@@ -31,7 +31,7 @@ export const users = pgTable('users', {
 export const sessions = pgTable(
   'sessions',
   {
-    id: text('id').primaryKey(),
+    id: uuid('id').primaryKey().defaultRandom(),
     expiresAt: timestamp('expires_at').notNull(),
     token: text('token').notNull().unique(),
     createdAt: timestamp('created_at').notNull(),
@@ -40,7 +40,7 @@ export const sessions = pgTable(
       .notNull(),
     ipAddress: text('ip_address'),
     userAgent: text('user_agent'),
-    userId: text('user_id')
+    userId: uuid('user_id')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
   },
@@ -50,10 +50,10 @@ export const sessions = pgTable(
 export const accounts = pgTable(
   'accounts',
   {
-    id: text('id').primaryKey(),
+    id: uuid('id').primaryKey().defaultRandom(),
     accountId: text('account_id').notNull(),
     providerId: text('provider_id').notNull(),
-    userId: text('user_id')
+    userId: uuid('user_id')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     accessToken: text('access_token'),
@@ -74,7 +74,7 @@ export const accounts = pgTable(
 export const verifications = pgTable(
   'verifications',
   {
-    id: text('id').primaryKey(),
+    id: uuid('id').primaryKey().defaultRandom(),
     identifier: text('identifier').notNull(),
     value: text('value').notNull(),
     expiresAt: timestamp('expires_at').notNull(),
