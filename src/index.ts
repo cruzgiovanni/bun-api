@@ -4,9 +4,11 @@ import { z } from 'zod'
 import { posts } from './db/schema'
 import { db } from './db'
 import { auth, OpenAPI } from './lib/auth'
+import { betterAuthMacro } from './macros/auth'
 
 const app = new Elysia()
   .mount(auth.handler)
+  .use(betterAuthMacro) // Use the betterAuthMacro to enhance the context with auth capabilities
   .use(
     openapi({
       mapJsonSchema: {
@@ -17,11 +19,11 @@ const app = new Elysia()
         paths: await OpenAPI.getPaths(),
       },
     })
-  )
+  ) // Integrate OpenAPI for automatic API documentation
   .get('/', () => 'Hello Elysia')
   .post(
     '/posts',
-    async ({ body }) => {
+    async ({ body, user, session }) => {
       const [result] = await db
         .insert(posts)
         .values({
@@ -33,6 +35,7 @@ const app = new Elysia()
       return result
     },
     {
+      needsAuth: true, // Require authentication for this route
       body: z.object({
         title: z.string().trim().min(1),
         content: z.string().trim().min(1),
