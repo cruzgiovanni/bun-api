@@ -12,6 +12,7 @@ export const auth = betterAuth({
     enabled: true,
   },
   plugins: [openAPI()],
+  basePath: 'api/auth'
 })
 
 let _schema: ReturnType<typeof auth.api.generateOpenAPISchema>
@@ -23,7 +24,7 @@ export const OpenAPI = {
       const reference: typeof paths = Object.create(null)
 
       for (const path of Object.keys(paths)) {
-        const key = path
+        const key = 'api/auth' + path
         reference[key] = paths[path]
 
         for (const method of Object.keys(paths[path])) {
