@@ -1,7 +1,7 @@
 import { Elysia } from 'elysia'
 import { openapi } from '@elysiajs/openapi'
 import { z } from 'zod'
-import { postsTable } from './db/schema'
+import { posts } from './db/schema'
 import { db } from './db'
 
 const app = new Elysia()
@@ -17,7 +17,7 @@ const app = new Elysia()
     '/posts',
     async ({ body }) => {
       const [result] = await db
-        .insert(postsTable)
+        .insert(posts)
         .values({
           title: body.title,
           content: body.content,
