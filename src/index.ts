@@ -17,7 +17,7 @@ const app = new Elysia()
       return {
         id: crypto.randomUUID(),
         title: body.title,
-        content: body.content, 
+        content: body.content,
         createdAt: new Date(),
       }
     },
