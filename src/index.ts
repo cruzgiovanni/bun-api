@@ -32,7 +32,12 @@ const app = new Elysia()
         })
         .returning()
 
-      return result
+      return {
+        id: result.id,
+        title: result.title,
+        content: result.content,
+        createdAt: result.createdAt.toISOString(), // Convert Date to ISO string, because errors may occur during serialization
+      }
     },
     {
       needsAuth: true, // Require authentication for this route
@@ -45,7 +50,7 @@ const app = new Elysia()
           id: z.uuid(),
           title: z.string(),
           content: z.string(),
-          createdAt: z.date(),
+          createdAt: z.iso.date(),
         }),
       },
     }
