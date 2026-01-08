@@ -18,7 +18,7 @@ const app = new Elysia()
         components: await OpenAPI.components,
         paths: await OpenAPI.getPaths(),
       },
-    })
+    }),
   ) // Integrate OpenAPI for automatic API documentation
   .get('/', () => 'Hello Elysia')
   .post(
@@ -53,13 +53,11 @@ const app = new Elysia()
           createdAt: z.iso.date(),
         }),
       },
-    }
+    },
   )
   .listen(3000)
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-)
+console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`)
 
 // Tabela (Drizzle schema)
 //         ↓
