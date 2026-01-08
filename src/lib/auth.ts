@@ -10,6 +10,11 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    password: {
+      hash: (password: string) => Bun.password.hash(password),
+      verify: ({ password, hash }: { password: string; hash: string }) =>
+        Bun.password.verify(password, hash),
+    },
   },
   advanced: {
     database: {
