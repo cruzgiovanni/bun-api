@@ -7,7 +7,6 @@ import { auth, OpenAPI } from './lib/auth'
 import { betterAuthMacro } from './macros/auth'
 
 const app = new Elysia()
-  .mount(auth.handler)
   .use(betterAuthMacro) // Use the betterAuthMacro to enhance the context with auth capabilities
   .use(
     openapi({
