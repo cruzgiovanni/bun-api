@@ -1,7 +1,11 @@
-import { drizzle } from 'drizzle-orm/bun-sql'
+import { drizzle } from 'drizzle-orm/node-postgres'
+import { Pool } from 'pg'
 import * as schema from './schema'
+import { env } from '@/env'
 
-export const db = drizzle(Bun.env.DATABASE_URL!, {
+const pool = new Pool({ connectionString: env.DATABASE_URL })
+
+export const db = drizzle(pool, {
   schema,
-  casing: 'snake_case', // automatically convert camelCase to snake_case in DB columns
+  casing: 'snake_case',
 })
